@@ -5571,7 +5571,7 @@ _LT_EOF
       ;;
 
     sunos4*)
-      _LT_TAGVAR(archive_cmds, $1)='$LD $wl-assert $wl-pure-text -Bshareable -o $lib $libobjs $deplibs $compiler_flags'
+      _LT_TAGVAR(archive_cmds, $1)='$LD $wl-assert,pure-text $wl-Bshareable -o $lib $libobjs $deplibs $compiler_flags'
       wlarc=
       _LT_TAGVAR(hardcode_direct, $1)=yes
       _LT_TAGVAR(hardcode_shlibpath_var, $1)=no
