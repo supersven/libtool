@@ -5494,13 +5494,29 @@ _LT_EOF
 	  # IBM XL Fortran 10.1 on PPC cannot create shared libs itself
 	  _LT_TAGVAR(whole_archive_flag_spec, $1)='--whole-archive$convenience --no-whole-archive'
 	  _LT_TAGVAR(hardcode_libdir_flag_spec, $1)='$wl-rpath $wl$libdir'
-	  _LT_TAGVAR(archive_cmds, $1)='$LD -shared $libobjs $deplibs $compiler_flags $wl-soname $wl$soname -o $lib'
-	  if test yes = "$supports_anon_versioning"; then
-	    _LT_TAGVAR(archive_expsym_cmds, $1)='echo "{ global:" > $output_objdir/$libname.ver~
+	  # Check if LD is a compiler or the actual linker
+	  case $LD in
+	    *gcc* | *g++* | *clang* | *cc)
+	      # LD is a compiler - use compiler flags
+	      _LT_TAGVAR(archive_cmds, $1)='$LD -shared $libobjs $deplibs $compiler_flags $wl-soname $wl$soname -o $lib'
+	      if test yes = "$supports_anon_versioning"; then
+	        _LT_TAGVAR(archive_expsym_cmds, $1)='echo "{ global:" > $output_objdir/$libname.ver~
               cat $export_symbols | $SED -e "s/\(.*\)/\1;/" >> $output_objdir/$libname.ver~
               echo "local: *; };" >> $output_objdir/$libname.ver~
               $LD -shared $libobjs $deplibs $compiler_flags $wl-soname $wl$soname $wl-version-script $wl$output_objdir/$libname.ver -o $lib'
-	  fi
+	      fi
+	      ;;
+	    *)
+	      # LD is a linker - use linker flags directly
+	      _LT_TAGVAR(archive_cmds, $1)='$LD -shared $libobjs $deplibs $linker_flags -soname $soname -o $lib'
+	      if test yes = "$supports_anon_versioning"; then
+	        _LT_TAGVAR(archive_expsym_cmds, $1)='echo "{ global:" > $output_objdir/$libname.ver~
+              cat $export_symbols | $SED -e "s/\(.*\)/\1;/" >> $output_objdir/$libname.ver~
+              echo "local: *; };" >> $output_objdir/$libname.ver~
+              $LD -shared $libobjs $deplibs $linker_flags -soname $soname -version-script $output_objdir/$libname.ver -o $lib'
+	      fi
+	      ;;
+	  esac
 	  ;;
 	esac
       else
@@ -5510,7 +5526,17 @@ _LT_EOF
 
     netbsd* | netbsdelf*-gnu)
       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
-	_LT_TAGVAR(archive_cmds, $1)='$LD $wl-Bshareable $libobjs $deplibs $compiler_flags -o $lib'
+	# Check if LD is a compiler or the actual linker
+	case $LD in
+	  *gcc* | *g++* | *clang* | *cc)
+	    # LD is a compiler - use compiler flags
+	    _LT_TAGVAR(archive_cmds, $1)='$LD $wl-Bshareable $libobjs $deplibs $compiler_flags -o $lib'
+	    ;;
+	  *)
+	    # LD is a linker - use linker flags directly
+	    _LT_TAGVAR(archive_cmds, $1)='$LD -Bshareable $libobjs $deplibs $linker_flags -o $lib'
+	    ;;
+	esac
 	wlarc=
       else
 	_LT_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname -o $lib'
@@ -5571,7 +5597,17 @@ _LT_EOF
       ;;
 
     sunos4*)
-      _LT_TAGVAR(archive_cmds, $1)='$LD $wl-assert,pure-text $wl-Bshareable -o $lib $libobjs $deplibs $compiler_flags'
+      # Check if LD is a compiler or the actual linker
+      case $LD in
+	*gcc* | *g++* | *clang* | *cc)
+	  # LD is a compiler - use compiler flags
+	  _LT_TAGVAR(archive_cmds, $1)='$LD $wl-assert,pure-text $wl-Bshareable -o $lib $libobjs $deplibs $compiler_flags'
+	  ;;
+	*)
+	  # LD is a linker - use linker flags directly
+	  _LT_TAGVAR(archive_cmds, $1)='$LD -assert pure-text -Bshareable -o $lib $libobjs $deplibs $linker_flags'
+	  ;;
+      esac
       wlarc=
       _LT_TAGVAR(hardcode_direct, $1)=yes
       _LT_TAGVAR(hardcode_shlibpath_var, $1)=no
